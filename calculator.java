@@ -7,10 +7,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class calculator extends Application {
-    private Label displayLabel;
-    private double firstNumber = 0;
-    private String operator = "";
-    private boolean start = true;
+    public Label displayLabel;
+    public double firstNumber = 0;
+    public String operator = "";
+    public boolean start = true;
 
     @Override
     public void start(Stage primaryStage) {
@@ -18,12 +18,9 @@ public class calculator extends Application {
         GridPane gridPane = createGridPane();
         addButtonsToGridPane(gridPane);
 
-        Scene scene = new Scene(gridPane, 350, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
-    private GridPane createGridPane() {
+    public GridPane createGridPane() {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
@@ -31,7 +28,14 @@ public class calculator extends Application {
         return gridPane;
     }
 
-    private void addButtonsToGridPane(GridPane gridPane) {
+    public GridPane createContent() {
+    	GridPane gridPane = createGridPane();
+   	addButtonsToGridPane(gridPane);
+    	return gridPane;
+    }
+
+
+    public void addButtonsToGridPane(GridPane gridPane) {
         displayLabel = new Label();
         displayLabel.setPrefHeight(40);
         displayLabel.setStyle("-fx-border-color: black; -fx-padding: 5px; -fx-font-size: 18px;");
@@ -65,7 +69,7 @@ public class calculator extends Application {
         gridPane.add(clearButton, 3, 4);
     }
 
-    private Button createButton(String text) {
+    public Button createButton(String text) {
         Button button = new Button(text);
         button.setPrefSize(70, 70);
         button.setStyle("-fx-font-size: 18px;");
@@ -73,7 +77,7 @@ public class calculator extends Application {
         return button;
     }
 
-    private void handleButtonClick(String text) {
+    public void handleButtonClick(String text) {
       if (start) {
           displayLabel.setText("");
           start = false;
@@ -95,7 +99,7 @@ public class calculator extends Application {
       }
     }
 
-    private double calculate(double firstNumber, double secondNumber, String operator) {
+    public double calculate(double firstNumber, double secondNumber, String operator) {
       switch (operator) {
           case "+":
               return firstNumber + secondNumber;
