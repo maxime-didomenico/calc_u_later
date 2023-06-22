@@ -1,4 +1,5 @@
 import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
@@ -6,29 +7,40 @@ public class Conversion {
     public VBox createConversionTab() {
         VBox conversionTab = new VBox(20);
         conversionTab.setAlignment(Pos.CENTER);
-        conversionTab.setStyle("-fx-background-color: lightblue; -fx-padding: 20; -fx-font-size: 20;");
+        conversionTab.setStyle("-fx-background-color: #333951; -fx-padding: 20; -fx-font-size: 20;");
 
         // Create components for the conversion tab
         Label titleLabel = new Label("Calculatrice de conversion");
+        titleLabel.setStyle("-fx-text-fill: white;");
 
         Label valueLabel = new Label("Valeur :");
+        valueLabel.setStyle("-fx-text-fill: white;");
         TextField valueField = new TextField();
         valueField.setPromptText("Entrez une valeur entière");
+        valueField.setStyle("-fx-text-fill: white;");
 
         Label conversionTypeLabel = new Label("Type de conversion :");
+        conversionTypeLabel.setStyle("-fx-text-fill: white;");
         ComboBox<String> conversionTypeComboBox = new ComboBox<>();
         conversionTypeComboBox.getItems().addAll("Température (Celsius/Fahrenheit)", "Longueur (m/cm)", "Poids (kg/g)", "Volume (L/mL)");
         conversionTypeComboBox.setValue("Température (Celsius/Fahrenheit)");
+        conversionTypeComboBox.setStyle("-fx-text-fill: white;");
 
         Label conversionFromLabel = new Label("De :");
+        conversionFromLabel.setStyle("-fx-text-fill: white;");
         ComboBox<String> fromUnitComboBox = new ComboBox<>();
+        fromUnitComboBox.setStyle("-fx-text-fill: white;");
 
         Label conversionToLabel = new Label("Vers :");
+        conversionToLabel.setStyle("-fx-text-fill: white;");
         ComboBox<String> toUnitComboBox = new ComboBox<>();
+        toUnitComboBox.setStyle("-fx-text-fill: white;");
 
         Label resultLabel = new Label("Résultat :");
+        resultLabel.setStyle("-fx-text-fill: white;");
         TextField resultField = new TextField();
         resultField.setEditable(false);
+        resultField.setStyle("-fx-text-fill: white;");
 
         Button resultButton = new Button("Résultat");
         resultButton.setOnAction(event -> {
