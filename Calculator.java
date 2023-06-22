@@ -2,22 +2,16 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.TilePane;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Calculator {
     private static final String[][] template = {
-            {"7", "8", "9", "/"},
-            {"4", "5", "6", "*"},
-            {"1", "2", "3", "-"},
-            {"0", "c", "=", "+", "%", "MS", "MR", "MC"},
-            {"sin", "cos", "tan", "ln", "log", "sqrt", "pow"} // Added scientific buttons
+            {"7", "8", "9", "c"},
+            {"4", "5", "6", "/"},
+            {"1", "2", "3", "*"},
+            {",", "0", "-", "+", "pow", "%", "MS", "MR", "MC"},
+            {"sin", "cos", "tan", "ln", "log", "sqrt", "="} // Added scientific buttons
     };
-
-    private final Map<String, Button> accelerators = new HashMap<>();
 
     private final DoubleProperty stackValue = new SimpleDoubleProperty();
     private final DoubleProperty value = new SimpleDoubleProperty();
@@ -32,10 +26,10 @@ public class Calculator {
 
     public TextField createScreen() {
         final TextField screen = new TextField();
-        screen.setStyle("-fx-background-color: aquamarine;");
         screen.setAlignment(Pos.CENTER_RIGHT);
+        screen.setPrefHeight(50);
         screen.setEditable(false);
-        screen.textProperty().bind(Bindings.format("%.4f", value)); // Adjusted formatting to display more decimal places
+        screen.textProperty().bind(Bindings.format("%.3f", value));
         return screen;
     }
 
@@ -52,53 +46,36 @@ public class Calculator {
         return buttons;
     }
 
-    public void handleAccelerators(KeyEvent keyEvent) {
-        Button activated = accelerators.get(keyEvent.getText());
-        if (activated != null) {
-            activated.fire();
-        }
-    }
-
     private Button createButton(final String s) {
         Button button = makeStandardButton(s);
 
-        if (s.matches("[0-9]")) {
-            makeNumericButton(s, button);
-        } else {
-            final ObjectProperty<Op> triggerOp = determineOperand(s);
-            if (triggerOp.get() != Op.NOOP) {
-                makeOperandButton(button, triggerOp);
-            } else if ("c".equals(s)) {
-                makeClearButton(button);
-            } else if ("=".equals(s)) {
-                makeEqualsButton(button);
-            } else if ("%".equals(s)) {
-                makePercentageButton(button);
-            } else if ("MS".equals(s)) {
-                makeMemoryStoreButton(button);
-            } else if ("MR".equals(s)) {
-                makeMemoryRecallButton(button);
-            } else if ("MC".equals(s)) {
-                makeMemoryClearButton(button);
-            } else if ("sin".equals(s)) { // Added sine button
-                makeSineButton(button);
-            } else if ("cos".equals(s)) { // Added cosine button
-                makeCosineButton(button);
-            } else if ("tan".equals(s)) { // Added tangent button
-                makeTangentButton(button);
-            } else if ("ln".equals(s)) { // Added natural logarithm button
-                makeNaturalLogButton(button);
-            } else if ("log".equals(s)) { // Added base 10 logarithm button
-                makeLogButton(button);
-            } else if ("sqrt".equals(s)) { // Added square root button
-                makeSquareRootButton(button);
-            } else if ("pow".equals(s)) { // Added power button
-                makePowerButton(button);
+        switch (s) {
+            case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" -> makeNumericButton(s, button);
+            case "c" -> makeClearButton(button);
+            case "=" -> makeEqualsButton(button);
+            case "%" -> makePercentageButton(button);
+            case "MS" -> makeMemoryStoreButton(button);
+            case "MR" -> makeMemoryRecallButton(button);
+            case "MC" -> makeMemoryClearButton(button);
+            case "sin" -> makeSineButton(button);
+            case "cos" -> makeCosineButton(button);
+            case "tan" -> makeTangentButton(button);
+            case "ln" -> makeNaturalLogButton(button);
+            case "log" -> makeLogButton(button);
+            case "sqrt" -> makeSquareRootButton(button);
+            case "pow" -> makePowerButton(button);
+            case "," -> makeCommaButton(button);
+            default -> {
+                final ObjectProperty<Op> triggerOp = determineOperand(s);
+                if (triggerOp.get() != Op.NOOP) {
+                    makeOperandButton(button, triggerOp);
+                }
             }
         }
 
         return button;
     }
+
 
     private ObjectProperty<Op> determineOperand(String s) {
         final ObjectProperty<Op> triggerOp = new SimpleObjectProperty<>(Op.NOOP);
@@ -112,15 +89,14 @@ public class Calculator {
     }
 
     private void makeOperandButton(Button button, final ObjectProperty<Op> triggerOp) {
-        button.setStyle("-fx-base: lightgray;");
+        button.setStyle("-fx-base: #333951;");
         button.setOnAction(actionEvent -> curOp = triggerOp.get());
     }
 
     private Button makeStandardButton(String s) {
         Button button = new Button(s);
-        button.setStyle("-fx-base: beige;");
-        accelerators.put(s, button);
-        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        button.setStyle("-fx-base: #333951;");
+        button.setPrefSize(94, 80);
         return button;
     }
 
@@ -138,7 +114,7 @@ public class Calculator {
     }
 
     private void makeClearButton(Button button) {
-        button.setStyle("-fx-base: mistyrose;");
+        button.setStyle("-fx-base: #2C324A;");
         button.setOnAction(actionEvent -> {
             value.set(0);
             percentage.set(0);
@@ -146,7 +122,7 @@ public class Calculator {
     }
 
     private void makeEqualsButton(Button button) {
-        button.setStyle("-fx-base: ghostwhite;");
+        button.setStyle("-fx-base: #2C324A;");
         button.setOnAction(actionEvent -> {
             switch (stackOp) {
                 case ADD -> value.set(stackValue.get() + value.get());
@@ -181,7 +157,7 @@ public class Calculator {
     }
 
     private void makeMemoryClearButton(Button button) {
-        button.setStyle("-fx-base: lightgray;");
+        button.setStyle("-fx-base: #333951;");
         button.setOnAction(actionEvent -> {
             memory.set(0);
             memorySet.set(false);
@@ -210,28 +186,27 @@ public class Calculator {
     }
 
     private void makeNaturalLogButton(Button button) {
-        button.setOnAction(actionEvent -> {
-            value.set(Math.log(value.get()));
-        });
+        button.setOnAction(actionEvent -> value.set(Math.log(value.get())));
     }
 
     private void makeLogButton(Button button) {
-        button.setOnAction(actionEvent -> {
-            value.set(Math.log10(value.get()));
-        });
+        button.setOnAction(actionEvent -> value.set(Math.log10(value.get())));
     }
 
     private void makeSquareRootButton(Button button) {
-        button.setOnAction(actionEvent -> {
-            value.set(Math.sqrt(value.get()));
-        });
+        button.setOnAction(actionEvent -> value.set(Math.sqrt(value.get())));
     }
 
     private void makePowerButton(Button button) {
         button.setOnAction(actionEvent -> {
-            double poweredValue = Math.pow(value.get(), 2); // Using Math.pow to calculate power with exponent 2
+            double poweredValue = Math.pow(value.get(), 2);
             value.set(poweredValue);
         });
     }
+
+    private void makeCommaButton(Button button) {
+        button.setOnAction(actionEvent -> value.set(value.get() + 0.));
+    }
+
 
 }

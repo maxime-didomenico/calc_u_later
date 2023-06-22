@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,16 +20,17 @@ public class Main extends Application {
         final TextField screen = calculator.createScreen();
         final TilePane buttons = calculator.createButtons();
 
-        stage.setTitle("Calc");
+        stage.setTitle("Calculator");
         stage.initStyle(StageStyle.UTILITY);
         stage.setResizable(false);
         stage.setScene(new Scene(createLayout(screen, buttons)));
+        buttons.setStyle("-fx-background-color: #1A2134;");
         stage.show();
     }
 
     private TabPane createLayout(TextField screen, TilePane buttons) {
-        final TabPane layout = new TabPane();
-        layout.setStyle("-fx-background-color: chocolate; -fx-padding: 20; -fx-font-size: 20;");
+        final TabPane layout = new TabPane();;
+        layout.setStyle("-fx-background-color: #1A2134; -fx-padding: 7; -fx-font-size: 20;");
 
         // Create the main calculator tab
         Tab calculatorTab = new Tab("Calculator");
@@ -48,14 +48,6 @@ public class Main extends Application {
         layout.getTabs().add(conversionTab);
 
         return layout;
-    }
-
-
-    private void handleAccelerators(VBox layout) {
-        layout.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            Calculator calculator = new Calculator();
-            calculator.handleAccelerators(keyEvent);
-        });
     }
 }
 

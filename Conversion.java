@@ -40,41 +40,46 @@ public class Conversion {
 
                 double result = 0.0;
 
-                if (selectedConversionType.equals("Température (Celsius/Fahrenheit)")) {
-                    // Temperature conversion logic
-                    if (selectedFromUnit.equals("Celsius") && selectedToUnit.equals("Fahrenheit")) {
-                        result = (inputValue * 9 / 5) + 32;
-                    } else if (selectedFromUnit.equals("Fahrenheit") && selectedToUnit.equals("Celsius")) {
-                        result = (inputValue - 32) * 5 / 9;
-                    } else {
-                        displayError("Conversion invalide !");
+                switch (selectedConversionType) {
+                    case "Température (Celsius/Fahrenheit)" -> {
+                        // Temperature conversion logic
+                        if (selectedFromUnit.equals("Celsius") && selectedToUnit.equals("Fahrenheit")) {
+                            result = (inputValue * 9 / 5) + 32;
+                        } else if (selectedFromUnit.equals("Fahrenheit") && selectedToUnit.equals("Celsius")) {
+                            result = (inputValue - 32) * 5 / 9;
+                        } else {
+                            displayError("Conversion invalide !");
+                        }
                     }
-                } else if (selectedConversionType.equals("Longueur (m/cm)")) {
-                    // Length conversion logic
-                    if (selectedFromUnit.equals("m") && selectedToUnit.equals("cm")) {
-                        result = inputValue * 100;
-                    } else if (selectedFromUnit.equals("cm") && selectedToUnit.equals("m")) {
-                        result = inputValue / 100;
-                    } else {
-                        displayError("Conversion invalide !");
+                    case "Longueur (m/cm)" -> {
+                        // Length conversion logic
+                        if (selectedFromUnit.equals("m") && selectedToUnit.equals("cm")) {
+                            result = inputValue * 100;
+                        } else if (selectedFromUnit.equals("cm") && selectedToUnit.equals("m")) {
+                            result = inputValue / 100;
+                        } else {
+                            displayError("Conversion invalide !");
+                        }
                     }
-                } else if (selectedConversionType.equals("Poids (kg/g)")) {
-                    // Weight conversion logic
-                    if (selectedFromUnit.equals("kg") && selectedToUnit.equals("g")) {
-                        result = inputValue * 1000;
-                    } else if (selectedFromUnit.equals("g") && selectedToUnit.equals("kg")) {
-                        result = inputValue / 1000;
-                    } else {
-                        displayError("Conversion invalide !");
+                    case "Poids (kg/g)" -> {
+                        // Weight conversion logic
+                        if (selectedFromUnit.equals("kg") && selectedToUnit.equals("g")) {
+                            result = inputValue * 1000;
+                        } else if (selectedFromUnit.equals("g") && selectedToUnit.equals("kg")) {
+                            result = inputValue / 1000;
+                        } else {
+                            displayError("Conversion invalide !");
+                        }
                     }
-                } else if (selectedConversionType.equals("Volume (L/mL)")) {
-                    // Volume conversion logic
-                    if (selectedFromUnit.equals("L") && selectedToUnit.equals("mL")) {
-                        result = inputValue * 1000;
-                    } else if (selectedFromUnit.equals("mL") && selectedToUnit.equals("L")) {
-                        result = inputValue / 1000;
-                    } else {
-                        displayError("Conversion invalide !");
+                    case "Volume (L/mL)" -> {
+                        // Volume conversion logic
+                        if (selectedFromUnit.equals("L") && selectedToUnit.equals("mL")) {
+                            result = inputValue * 1000;
+                        } else if (selectedFromUnit.equals("mL") && selectedToUnit.equals("L")) {
+                            result = inputValue / 1000;
+                        } else {
+                            displayError("Conversion invalide !");
+                        }
                     }
                 }
 
@@ -103,18 +108,23 @@ public class Conversion {
             fromUnitComboBox.getItems().clear();
             toUnitComboBox.getItems().clear();
 
-            if (selectedConversionType.equals("Température (Celsius/Fahrenheit)")) {
-                fromUnitComboBox.getItems().addAll("Celsius", "Fahrenheit");
-                toUnitComboBox.getItems().addAll("Celsius", "Fahrenheit");
-            } else if (selectedConversionType.equals("Longueur (m/cm)")) {
-                fromUnitComboBox.getItems().addAll("m", "cm");
-                toUnitComboBox.getItems().addAll("m", "cm");
-            } else if (selectedConversionType.equals("Poids (kg/g)")) {
-                fromUnitComboBox.getItems().addAll("kg", "g");
-                toUnitComboBox.getItems().addAll("kg", "g");
-            } else if (selectedConversionType.equals("Volume (L/mL)")) {
-                fromUnitComboBox.getItems().addAll("L", "mL");
-                toUnitComboBox.getItems().addAll("L", "mL");
+            switch (selectedConversionType) {
+                case "Température (Celsius/Fahrenheit)" -> {
+                    fromUnitComboBox.getItems().addAll("Celsius", "Fahrenheit");
+                    toUnitComboBox.getItems().addAll("Celsius", "Fahrenheit");
+                }
+                case "Longueur (m/cm)" -> {
+                    fromUnitComboBox.getItems().addAll("m", "cm");
+                    toUnitComboBox.getItems().addAll("m", "cm");
+                }
+                case "Poids (kg/g)" -> {
+                    fromUnitComboBox.getItems().addAll("kg", "g");
+                    toUnitComboBox.getItems().addAll("kg", "g");
+                }
+                case "Volume (L/mL)" -> {
+                    fromUnitComboBox.getItems().addAll("L", "mL");
+                    toUnitComboBox.getItems().addAll("L", "mL");
+                }
             }
 
             fromUnitComboBox.setValue(fromUnitComboBox.getItems().get(0));
